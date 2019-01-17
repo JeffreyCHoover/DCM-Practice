@@ -1,0 +1,128 @@
+---
+title: "Practice DCM"
+author: "Jeff Hoover"
+date: "January 17, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+#load packages
+library(tidyverse)
+library(csvread)
+library(difR)
+library(tinytex)
+library(CDM)
+```
+
+
+```{r}
+#load the data
+data <- fraction.subtraction.data
+
+#load the qmatrix
+qmatrix <- fraction.subtraction.qmatrix
+```
+
+#DINA
+
+```{r}
+dina <- din(data = data, q.matrix = qmatrix, guess.equal = .2, slip.equal = .1, 
+            maxit = 500, rule = "DINA")
+```
+
+\pagebreak
+
+#Print DINA
+
+```{r}
+print(dina)
+```
+
+\pagebreak
+
+#DINA Summary
+
+```{r}
+summary(dina)
+```
+
+\pagebreak
+
+#DINA Person-Fit
+
+```{r}
+person <- personfit.appropriateness(data = data, dina$pjk, 
+                                    dina$attribute.patt[,1], maxiter = 8)
+summary(person)
+plot(person)
+```
+
+\pagebreak
+
+#DINO
+
+```{r}
+dino <- din(data = data, q.matrix = qmatrix, guess.equal = .2, slip.equal = .1, 
+            maxit = 500, rule = "DINO")
+```
+
+\pagebreak
+
+#Print DINO
+
+```{r}
+print(dino)
+```
+
+\pagebreak
+
+#DINO Summary
+
+```{r}
+summary(dino)
+```
+
+\pagebreak
+
+#DINO Person-Fit
+
+```{r}
+person2 <- personfit.appropriateness(data = data, dino$pjk, 
+                                    dino$attribute.patt[,1], maxiter = 8)
+summary(person2)
+plot(person2)
+```
+
+\pagebreak
+
+#GDINA
+
+```{r include = FALSE}
+gdina <- gdina(data = data, q.matrix = qmatrix, guess.equal =.2, slip.equal =.1, 
+            maxit = 500, rule = "GDINA")
+```
+
+\pagebreak
+
+#Print GDINA
+
+```{r}
+print(gdina)
+```
+
+```{r}
+#summary(gdina)
+```
+
+\pagebreak
+
+#GDINA Person-Fit
+
+```{r}
+person3 <- personfit.appropriateness(data = data, gdina$pjk, 
+                                    gdina$attribute.patt[,1], maxiter = 8)
+summary(person3)
+plot(person3)
+```
